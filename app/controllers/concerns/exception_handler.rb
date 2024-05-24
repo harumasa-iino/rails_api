@@ -13,13 +13,11 @@ module ExceptionHandler
   end
 
   def render_404(exception = nil, messages = nil)
-    error_message = ["Couldn't find #{exception.model} with 'id'=#{exception.id}"] if exception.respond_to?(:model)
-    render(json: { message: 'Record Not Found', exception: error_message }, status: 404)
+    render_error(404, 'Record Not Found', exception&.message )
   end
 
-  def render_500(exception)
-    error_message = 'Standard Error'
-    render(json: { message: "Internal Server Error", exception: error_message }, status: 500)
+  def render_500(exception = nil, messages = nil)
+    render_error(500, "Internal Server Error", exception&.message)
   end
 
   def render_error(code, message, *error_messages)
