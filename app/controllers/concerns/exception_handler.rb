@@ -8,7 +8,7 @@ module ExceptionHandler
 
   private
 
-  def render_400(exception = nil, _messages = nil)
+  def render_request(exception = nil, _messages = nil)
     render_error(400, 'Bad Request', exception&.message, *messages)
   end
 
