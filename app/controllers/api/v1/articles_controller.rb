@@ -10,7 +10,7 @@ module Api
       end
 
       def show
-        article = Article.find_by(id: params[:id])
+        article = Article.find(params[:id])
         json_string = ArticleSerializer.new(article).serialized_json
         render json: json_string
       end
