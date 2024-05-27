@@ -3,4 +3,3 @@ class UserSerializer
   has_many :articles
   attributes :name, :email
 end
-  
