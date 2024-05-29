@@ -4,11 +4,12 @@ module ExceptionHandler
   included do
     rescue_from StandardError, with: :render_server
     rescue_from ActiveRecord::RecordNotFound, with: :render_record
+    rescue_from ActionController::ParameterMissing, with: :render_request
   end
 
   private
 
-  def render_request(exception = nil, _messages = nil)
+  def render_request(exception = nil, messages = nil)
     render_error(400, 'Bad Request', exception&.message, *messages)
   end
 

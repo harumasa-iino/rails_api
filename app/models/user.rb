@@ -6,7 +6,8 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :api_keys, dependent: :destroy
 
-  validates :name, :email, presence: true
+  validates :name, presence: true
+  validates :email, presence: true
 
   def grant_api_key
     return api_keys.active.first if api_keys.active.exists?
