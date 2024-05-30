@@ -10,8 +10,7 @@ class User < ApplicationRecord
   validates :email, presence: true
 
   def grant_api_key
-    return api_keys.active.first if api_keys.active.exists?
-
+    return api_keys.valid_expire.first if api_keys.valid_expire.exists?
     api_keys.create
   end
 end
