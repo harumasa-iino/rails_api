@@ -11,6 +11,7 @@ class User < ApplicationRecord
 
   def grant_api_key
     return api_keys.valid_expire.first if api_keys.valid_expire.exists?
+    
     api_keys.create
   end
 end
