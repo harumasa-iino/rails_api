@@ -5,6 +5,7 @@ module Api
         user = login(params[:email], params[:password])
         raise ActiveRecord::RecordNotFound unless user
 
+        set_token(user)
         json_string = UserSerializer.new(user).serialized_json
         render json: json_string
       end

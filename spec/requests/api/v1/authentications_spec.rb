@@ -12,6 +12,7 @@ RSpec.describe 'Api::V1::Authentications', type: :request do
         expect(body['data']['type']).to eq('user')
         expect(body['data']['attributes']['name']).to eq(user.name)
         expect(body['data']['attributes']['email']).to eq(user.email)
+        expect(response.headers['AccessToken']).to be_present
         expect(response).to be_successful
         expect(response).to have_http_status(200)
       end
