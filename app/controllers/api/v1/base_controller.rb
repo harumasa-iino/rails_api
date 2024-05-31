@@ -15,7 +15,7 @@ module Api
       def current_user
         @_current_user
       end
-      
+
       # rubocop:disable Naming/MemoizedInstanceVariableName
       def authenticate
         authenticate_or_request_with_http_token do |token, _options|
