@@ -13,12 +13,12 @@ module Api
       private
 
       def current_user
-        @_current_user
+        @current_user
       end
 
       def authenticate
         authenticate_or_request_with_http_token do |token, _options|
-          @_current_user ||= ApiKey.valid_expire.find_by(access_token: token)&.user
+          @current_user ||= ApiKey.valid_expire.find_by(access_token: token)&.user
         end
       end
     end
