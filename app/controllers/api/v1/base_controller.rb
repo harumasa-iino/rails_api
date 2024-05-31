@@ -13,14 +13,15 @@ module Api
       private
 
       def current_user
-        @current_user
+        @_current_user
       end
-
+      # rubocop:disable Naming/MemoizedInstanceVariableName
       def authenticate
         authenticate_or_request_with_http_token do |token, _options|
-          @current_user ||= ApiKey.valid_expire.find_by(access_token: token)&.user
+          @_current_user ||= ApiKey.valid_expire.find_by(access_token: token)&.user
         end
       end
+      # rubocop:enable Naming/MemoizedInstanceVariableName
     end
   end
 end
