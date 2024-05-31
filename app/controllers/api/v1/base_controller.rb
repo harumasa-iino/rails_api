@@ -17,7 +17,7 @@ module Api
       end
 
       def authenticate
-        authenticate_or_request_with_http_token do |token, options|
+        authenticate_or_request_with_http_token do |token, _options|
           @_current_user ||= ApiKey.valid_expire.find_by(access_token: token)&.user
         end
       end
