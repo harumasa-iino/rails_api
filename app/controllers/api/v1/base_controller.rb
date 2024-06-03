@@ -10,7 +10,7 @@ module Api
         response.headers['AccessToken'] = api_key.access_token
       end
 
-      private
+      protected
 
       def current_user
         @_current_user
