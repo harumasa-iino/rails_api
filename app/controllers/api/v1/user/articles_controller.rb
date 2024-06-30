@@ -1,55 +1,57 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class User::ArticlesController < BaseController
-      before_action :set_user_article, only: [:show, :update, :destroy]
-      before_action :authenticate
+      before_action :set_articles, only: :index
+      before_action :set_article, only: %i[show update destroy]
 
-      # GET /user/articles
       def index
-        @user_articles = Article.where(user_id: current_user.id)
-        render json: @user_articles
+        json_string = ArticleSerializer.new(@articles).serialized_json
+
+        render json: json_string
       end
 
-      # GET /user/articles/1
-      def show
-        @user_article = @user_articles.where(id: params[:id])
-       render json: @user_article
-      end
-
-      # POST /user/articles
       def create
-        @user_article = current_user.articles.new(user_article_params)
+        article = current_user.articles.new(article_params)
 
-        if @user_article.save
-          render json: @user_article, status: :created
+        if article.save
+          json_string = ArticleSerializer.new(article).serialized_json
+          render json: json_string
         else
-          render json: @user_article.errors, status: :unprocessable_entity
+          render_400(nil, article.errors.full_messages)
         end
       end
 
-      # PATCH/PUT /user/articles/1
       def update
-        if @user_article.update(user_article_params)
-          render json: @user_article
+        if @article.update(article_params)
+          json_string = ArticleSerializer.new(@article).serialized_json
+          render json: json_string
         else
-          render json: @user_article.errors, status: :unprocessable_entity
+          render_400(nil, article.errors.full_messages)
         end
       end
 
-      # DELETE /user/articles/1
       def destroy
-        @user_article.destroy
+        @article.destroy!
+        set_articles
+        json_string = ArticleSerializer.new(@articles).serialized_json
+
+        render json: json_string
       end
 
       private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_user_article
-        @user_articles = Article.where(user_id: current_user.id)
+
+      def set_article
+        @article = current_user.articles.find(params[:id])
       end
 
-      # Only allow a trusted parameter "white list" through.
-      def user_article_params
-        params.require(:article).permit(:title, :content, :status, :user_id)
+      def set_articles
+        @articles = current_user.articles
+      end
+
+      def article_params
+        params.require(:article).permit(:title, :contents, :status)
       end
     end
   end

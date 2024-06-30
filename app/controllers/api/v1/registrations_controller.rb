@@ -8,7 +8,7 @@ module Api
           set_token(@user)
           render json: json_string
         else
-          render_request(nil, @user.errors.full_messages)
+          render_request(nil, @user.errors.full_messages) #
         end
       end
 
